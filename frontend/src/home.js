@@ -22,8 +22,10 @@ class Home extends React.Component {
     console.log(e);
     await this.setState({ query: e.target.value });
 
-    if (!this.state.query)
+    if (!this.state.query) {
+      this.setState({results: []});
       return;
+    }
 
     let req = {
       query: this.state.query,

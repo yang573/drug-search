@@ -10,6 +10,7 @@ app.config["MONGO_URI"] = "mongodb://localhost:28017/"
 mongo = PyMongo(app)
 
 search_route = "http://localhost:9200/drugs"
+#search_route = "http://localhost:9200/drugs_test"
 
 @app.route('/')
 def home():
@@ -81,6 +82,17 @@ def insert():
     resp = requests.post(url=(search_route + "/_doc"), json=es_data)
     print(resp.json())
 
+    # TODO: Add all drug names under same id
+#    for new_name in data["names_brand"] + data["names_generic"]:
+#        es_data = {
+#            "uuid": data["uuid"],
+#            "name": new_name,
+#            "isDrug": True,
+#        }
+#        resp = requests.post(url=(search_route + "/_doc"), json=es_data)
+#        print(resp.json())
+
+    # Add drug mechanisms
     for mech in data["mechanisms"]:
         # Check if mechanism is present
         query = {
