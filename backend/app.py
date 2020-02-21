@@ -16,15 +16,15 @@ search_route = "http://localhost:9200/drugs"
 def home():
     return "Greetings"
 
-@app.route('/data', methods=["POST", "GET"])
+@app.route('/data', methods=["GET"])
 def data():
     data = {}
     return { "status": "OK", "data": data }, 200
 
-@app.route('/search', methods=["POST", "GET"])
+@app.route('/search', methods=["GET"])
 def search():
     print("GET /search")
-    data = request.json
+    data = request.args
     results = []
 
     # Auto-complete query
@@ -43,6 +43,7 @@ def search():
         resp = requests.post(url=(search_route + "/_search"), json=query)
         resp_json = resp.json()
         print(resp_json)
+
         for record in resp_json["suggest"]["records"]:
             for option in record["options"]:
                 results.append({

@@ -32,13 +32,11 @@ class Home extends React.Component {
       suggest: true
     };
 
-    let resp = await fetch(search_route, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(req)
-    });
+    let search_query = new URL(search_route);
+    search_query.searchParams.append("suggest", true)
+    search_query.searchParams.append("query", this.state.query)
+
+    let resp = await fetch(search_query, { method: 'GET' });
 
     let data = await resp.json();
     console.log(data);
